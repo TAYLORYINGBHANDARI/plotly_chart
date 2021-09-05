@@ -80,12 +80,12 @@ function buildCharts(samples) {
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     
     var sample_values=results.sample_values;
+    console.log(sample_values);
     var otu_labels=results.otu_labels;
     var otu_ids=results.otu_ids;
     
     // 7. Create the yticks for the bar chart.
-    // Hint: Get the the top 10 otu_ids and map them in descending order  
-    
+    // Hint: Get the the top 10 otu_ids and map them in descnding order  
     
     var yticks = otu_ids.slice(0, 10).map(otuID => `OTU ${otuID}`).reverse();
     var xticks=sample_values.slice(0,10).reverse();
@@ -154,18 +154,27 @@ function buildCharts(samples) {
 
 /////////////////////////Deliverable 3 ///////////////////////////////////////////
     // 4. Create the trace for the gauge chart.
-    
-    var wfqc_value=sampledata.metadata.map(numbers=>numbers.wfreq);
+    var wfreqArray = sampledata.metadata.filter((val) => val.id == samples);
+    wfreqArray = wfreqArray[0];
+    console.log(wfreqArray);
 
+    let wfreq = Object.values(wfreqArray)[6];
+    console.log(wfreq);
+   // var wfqcArray=sampledata.metadata.map(numbers=>numbers.wfreq);
+    //console.log(wfqcArray);
+    //wfqc_value=wfqcArray.filter(value=>wfqcArray.value==samples);
+    
+    
+    
     var trace={
       domain: { x: [0, 1], y: [0, 1] },
-      value: wfqc_value,
+      value: wfreq,
       
       title: { text: "<b>Belly Button Washing Frequency<b><br> scrubs per Week" },
       type: "indicator",
       ///mode: "gauge+number+delta",
       mode: "gauge+number",
-      ///delta: { reference:4 },
+      ///delta: { reference: },
       gauge: {
         axis: { range: [null, 10] },
         steps: [
@@ -181,7 +190,6 @@ function buildCharts(samples) {
     var gaugeData = [
      trace
     ];
-    
     // 5. Create the layout for the gauge chart.
     var gaugeLayout = { 
      
