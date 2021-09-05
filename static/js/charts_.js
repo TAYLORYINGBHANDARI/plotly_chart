@@ -17,6 +17,7 @@ function init() {
 
     // Use the first sample from the list to build the initial plots
     var firstSample = sampleNames[0];
+    console.log(firstSample);
     buildCharts(firstSample);
     buildMetadata(firstSample);
   })};
@@ -60,17 +61,18 @@ function buildMetadata(sample) {
 
   });
 }
-
+////////////////////Chanllenge start here 1///////////////////////////////
 // 1. Create the buildCharts function.
 function buildCharts(samples) {
   // 2. Use d3.json to load and retrieve the samples.json file 
   d3.json("samples.json").then((sampledata) => {
     
-    
+    console.log(sampledata)
     // 3. Create a variable that holds the samples array. 
-    var sampledata = sampledata.samples;
+    var samplesArray = sampledata.samples;
     // 4. Create a variable that filters the samples for the object with the desired sample number.
-    var sampleFilter=sampledata.filter(sampleObj=>sampleObj.id=samples);
+    var sampleFilter=samplesArray.filter(sampleObj=>sampleObj.id=samples);
+    
     //  5. Create a variable that holds the first sample in the array.
     var results = sampleFilter[0];
     console.log(results);
@@ -79,6 +81,7 @@ function buildCharts(samples) {
     
     var sample_values=results.sample_values;
     var otu_labels=results.otu_labels;
+    var otu_ids=results.otu_ids;
     
     // 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
@@ -89,7 +92,7 @@ function buildCharts(samples) {
     var otu_label_10=otu_labels.slice(0,10).reverse();
     
 
-    console.log(otu_label_10);
+    
 
     var trace={y:yticks,
       x:xticks,
@@ -152,20 +155,25 @@ function buildCharts(samples) {
 /////////////////////////Deliverable 3 ///////////////////////////////////////////
     // 4. Create the trace for the gauge chart.
     
-   
+    var wfqc_value=sampledata.metadata.map(numbers=>numbers.wfreq);
+
     var trace={
       domain: { x: [0, 1], y: [0, 1] },
       value: wfqc_value,
-      title: { text: "Belly Button Washing Frequency" },
+      
+      title: { text: "<b>Belly Button Washing Frequency<b><br> scrubs per Week" },
       type: "indicator",
-      mode: "gauge+number+delta",
-      delta: { reference: 380 },
+      ///mode: "gauge+number+delta",
+      mode: "gauge+number",
+      ///delta: { reference:4 },
       gauge: {
         axis: { range: [null, 10] },
         steps: [
           { range: [0, 2], color: "red" },
           { range: [2, 4], color: "orange" },
-          { range: [4, 10], color: "yellow" }]
+          { range: [4, 6], color: "yellow" },
+          { range: [6,8], color: "green" },
+          { range: [8, 10], color: "dark green" },]
       }
       
     };
@@ -180,7 +188,7 @@ function buildCharts(samples) {
     };
 
     // 6. Use Plotly to plot the gauge data and layout.
-    Plotly.newPlot("bar",gaugeData,gaugeLayout);
+    Plotly.newPlot("gauge",gaugeData,gaugeLayout);
 
 
 
