@@ -72,6 +72,7 @@ function buildCharts(samples) {
     var samplesArray = sampledata.samples;
     // 4. Create a variable that filters the samples for the object with the desired sample number.
     var sampleFilter=samplesArray.filter(sampleObj=>sampleObj.id=samples);
+    console.log(sampleFilter);
     
     //  5. Create a variable that holds the first sample in the array.
     var results = sampleFilter[0];
@@ -105,14 +106,20 @@ function buildCharts(samples) {
     var barData = [trace];
     // 9. Create the layout for the bar chart. 
     var barlayout = {
-      title:"TOP 10 BACTERIA CULTURES FOUND",
-
-      xaxis:{title:""},
-      yaxis:{title:""}
+                    height: 500,
+                    width: 400,
+                    title:"TOP 10 BACTERIA CULTURES FOUND ",
+                    font: {
+                    family: 'Arial Black',
+                    size: 12,
+                    color: '#7f7f7f'}
      
     };
     // 10. Use Plotly to plot the data with the layout. 
     Plotly.newPlot("bar",barData,barlayout);
+
+
+
 /////////////////Delieverable 2 ///////////////////////////
 // 1. Create the trace for the bubble chart.
     trace={
@@ -154,18 +161,12 @@ function buildCharts(samples) {
 
 /////////////////////////Deliverable 3 ///////////////////////////////////////////
     // 4. Create the trace for the gauge chart.
-    var wfreqArray = sampledata.metadata.filter((val) => val.id == samples);
+    var wfreqArray = sampledata.metadata.filter(val => val.id == samples);
     wfreqArray = wfreqArray[0];
     console.log(wfreqArray);
 
     let wfreq = Object.values(wfreqArray)[6];
     console.log(wfreq);
-   // var wfqcArray=sampledata.metadata.map(numbers=>numbers.wfreq);
-    //console.log(wfqcArray);
-    //wfqc_value=wfqcArray.filter(value=>wfqcArray.value==samples);
-    
-    
-    
     var trace={
       domain: { x: [0, 1], y: [0, 1] },
       value: wfreq,
@@ -178,11 +179,11 @@ function buildCharts(samples) {
       gauge: {
         axis: { range: [null, 10] },
         steps: [
-          { range: [0, 2], color: "red" },
-          { range: [2, 4], color: "orange" },
-          { range: [4, 6], color: "yellow" },
-          { range: [6,8], color: "green" },
-          { range: [8, 10], color: "dark green" },]
+          { range: [0, 2], color: "80ED99" },
+          { range: [2, 4], color: "#3DC6C3" },
+          { range: [4, 6], color: "#3AC0DA" },
+          { range: [6,8], color: "#1891C3" },
+          { range: [8, 10], color: "#016FC4" },]
       }
       
     };
@@ -190,8 +191,14 @@ function buildCharts(samples) {
     var gaugeData = [
      trace
     ];
+
     // 5. Create the layout for the gauge chart.
     var gaugeLayout = { 
+                      width: 500,
+                      height: 400,
+                      margin: { t: 25, r: 25, l: 25, b: 25 },
+                      paper_bgcolor: "white",
+                      font: { color: "00589c", family: "Arial black" }
      
     };
 
